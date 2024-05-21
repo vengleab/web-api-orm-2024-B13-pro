@@ -1,0 +1,17 @@
+{
+  "name": "web-api",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "nodemon server.js",
+    "dev": "echo dev test"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
