@@ -1,14 +1,14 @@
 const userData = require("../models/users.json")
 
 const getAllUser = (req, res) => {
-  const {query} = req;
-  if(query.username) {
-    res.send(userData.filter(u=> u.username == query.username))
-  } else{
-    res.send(userData);
-  }
+  // const {query} = req;
+  // if(query.username) {
+  //   res.send(userData.filter(u=> u.username == query.username))
+  // } else{
+  //   res.send(userData);
+  // }
   
-  // res.render("/views/users.ejs")
+  res.render("users.ejs", { app_name: "Web ORM 2"})
 }
 
 
