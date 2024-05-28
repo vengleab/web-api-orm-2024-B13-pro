@@ -1,7 +1,12 @@
+const dotenv = require("dotenv");
+dotenv.config()
+
 const express = require("express");
-const userRoutes = require("./routers/userRoutes")
+const userRoutes = require("./routers/userRoutes");
+const morgan = require("morgan");
 const app = express();
 
+app.use(morgan("common"))
 app.set("view engine", 'ejs')
 app.use(express.json())
 app.use("/assets", express.static("public"))
@@ -13,4 +18,5 @@ app.get("/", (req, res) => {
 
 app.listen(80, ()=> {
   console.log("Server is running on http://localhost");
+  console.log(process.env.PORT);
 })
