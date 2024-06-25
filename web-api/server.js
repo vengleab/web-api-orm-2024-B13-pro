@@ -6,7 +6,7 @@ const userRoutes = require("./routers/userRoutes");
 const morgan = require("morgan");
 const app = express();
 
-app.use(morgan("common"))
+app.use(morgan(":method :url :status"))
 app.set("view engine", 'ejs')
 app.use(express.json())
 app.use("/assets", express.static("public"))
