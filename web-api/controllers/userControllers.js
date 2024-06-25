@@ -13,6 +13,7 @@ const getAllUser = (req, res) => {
 
 
 const createNewUser = (request, response) => {
+  console.log({ body: request.body });
   const body = request.body;
   console.log({ body })
   const { username, password } = body;
