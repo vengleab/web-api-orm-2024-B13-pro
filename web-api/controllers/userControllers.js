@@ -1,6 +1,7 @@
 const userData = require("../models/users.json")
 const { PrismaClient } = require("@prisma/client");
 const primsa = new PrismaClient();
+const bcrypt = require("bcrypt");
 
 const getAllUser = async (req, res) => {
   const {query} = req;
@@ -15,7 +16,16 @@ const getAllUser = async (req, res) => {
   // res.render("users.ejs", { app_name: "Web ORM 2"})
 }
 
+const login = async (req, res) => {
+  const {username, password} = req.body;
+  const foundUser= await primsa.user.findFirst({  where: {username}})
+  if( foundUser && bcrypt.compareSync(password, foundUser.password )){
+    res.send({ message: "Login success"});
+  } else {
+    res.status(401).send()
+  }
 
+}
 
 
 const createNewUser = async (request, response) => {
@@ -23,7 +33,8 @@ const createNewUser = async (request, response) => {
   const body = request.body;
   console.log({ body })
   const { username, password } = body;
-  const newUsers = {  username: username, password}
+  const salt = bcrypt.genSaltSync(Math.random() * 10);
+  const newUsers = {  username: username, password: bcrypt.hashSync(password, salt)}
   const createdUser = await primsa.user.create({ 
     data: newUsers
   })
@@ -59,6 +70,7 @@ const deleteUserById = async (req, res) => {
   res.status(204).send();
 }
 module.exports = {
+  login,
   getAllUser,
   createNewUser,
   updatePassword,
