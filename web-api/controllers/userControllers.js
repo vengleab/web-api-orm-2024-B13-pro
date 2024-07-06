@@ -6,9 +6,9 @@ const getAllUser = async (req, res) => {
   const {query} = req;
   console.log({ query });
   if(query.username) {
-    res.send(await primsa.user.findMany({ where: {username: query.username}}))
+    res.send(await primsa.user.findMany({ where: {username: query.username}, include: { articles: true }}))
   } else{
-    const foundUsers = await primsa.user.findMany();
+    const foundUsers = await primsa.user.findMany({ include: { articles: true }});
     res.send(foundUsers);
   }
   

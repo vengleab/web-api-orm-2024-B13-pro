@@ -4,6 +4,7 @@ dotenv.config()
 const express = require("express");
 const userRoutes = require("./routers/userRoutes");
 const morgan = require("morgan");
+const articleRoutes = require("./routers/articleRoutes");
 const app = express();
 app.use("/assets", express.static("public"))
 app.use(morgan("common"))
@@ -20,6 +21,7 @@ app.use(morgan("common"))
 app.use(express.json())
 
 app.use("",userRoutes)
+app.use("", articleRoutes)
 app.get("/", (req, res) => {
   console.log("Handling");
   for(let i=0; i<1_000_000_000;i++);
