@@ -1,7 +1,18 @@
 const userData = require("../models/users.json")
 const { PrismaClient } = require("@prisma/client");
+const jwtUtils = require("../utils/jwtUtils");
 const primsa = new PrismaClient();
 const bcrypt = require("bcrypt");
+
+const getMyProfile = async (req, res) => {
+
+  const loginId = req.userId;
+  if(loginId)
+    return res.send(await primsa.user.findUnique({where: { id: loginId}}))
+  else {
+    return res.status(401).send({ message: "You are not login"})
+  }
+}
 
 const getAllUser = async (req, res) => {
   const {query} = req;
@@ -20,7 +31,7 @@ const login = async (req, res) => {
   const {username, password} = req.body;
   const foundUser= await primsa.user.findFirst({  where: {username}})
   if( foundUser && bcrypt.compareSync(password, foundUser.password )){
-    res.send({ message: "Login success"});
+    res.send({ message: "Login success", token: jwtUtils.issueToken({id: foundUser.id})});
   } else {
     res.status(401).send()
   }
@@ -74,5 +85,6 @@ module.exports = {
   getAllUser,
   createNewUser,
   updatePassword,
-  deleteUserById
+  deleteUserById,
+  getMyProfile
 }

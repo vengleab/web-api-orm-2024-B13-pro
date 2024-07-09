@@ -1,18 +1,27 @@
-const authMiddleWare = (req, res, next) => {
-  // get token from header or get from cookie
-  // extract user info from token or cookie
+const jwtUtils = require("../utils/jwtUtils");
+const authMiddleWare = async (req, res, next) => {
+  const authorization = req.headers.authorization;
+  if (!authorization) {
+    return res.status(401).send({ message: "Bad header" });
+  }
 
-  // if not login
-  /**
-    res.status(401).send({ message: "you have not login yet"})
-   */
+  if (!authorization.startsWith("Bearer ")) {
+    return res.status(401).send({ message: "Bad Scheme" });
+  }
 
-
-
-  // assume login user is ID: 1
-  req.user = { id: 1 };
-  next();
-  
-}
+  const [_scheme, token] = authorization.split(" ");
+  if (!token) {
+    return res.status(401).send({ message: "Missing token" });
+  }
+  try {
+    const payload = jwtUtils.verifyToken(token);
+    const { id } = payload;
+    req.userId = id;
+    next();
+  } catch (error) {
+    console.log({error});
+    return res.status(401).send({ message: "Invalid token" });
+  }
+};
 
 module.exports = authMiddleWare;
