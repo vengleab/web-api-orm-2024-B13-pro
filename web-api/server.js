@@ -1,4 +1,5 @@
 const dotenv = require("dotenv");
+const cors = require("cors");
 dotenv.config()
 
 const express = require("express");
@@ -6,6 +7,7 @@ const userRoutes = require("./routers/userRoutes");
 const morgan = require("morgan");
 const articleRoutes = require("./routers/articleRoutes");
 const app = express();
+app.use(cors({ origin: "http://localhost:3000"}))
 app.use("/assets", express.static("public"))
 app.use(morgan("common"))
 // const logMiddleware = (req, res, next) => {
@@ -28,7 +30,16 @@ app.get("/", (req, res) => {
   // throw Error("Random Error");
   console.log("handle request");
   const style = "stylesheet"
-  res.send("<link rel='"+ style +"' href='/assets/css/styles.css'><h1 style='color: red'><img src='/assets/img/promise.webp'>NodeJS Project</h1>")
+  // res.send("<link rel='"+ style +"' href='/assets/css/styles.css'><h1 style='color: red'><img src='/assets/img/promise.webp'>NodeJS Project</h1>")
+  res.send(`
+    
+    <form>
+
+      <input name="email" placeholder="Email" />
+      <input name="password" placeholder="Password" />
+    </form>
+    
+    `)
 })
 
 
