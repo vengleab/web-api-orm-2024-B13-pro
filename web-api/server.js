@@ -7,7 +7,9 @@ const userRoutes = require("./routers/userRoutes");
 const morgan = require("morgan");
 const articleRoutes = require("./routers/articleRoutes");
 const app = express();
-app.use(cors({ origin: "http://localhost:3000"}))
+const cookieParser = require("cookie-parser");
+app.use(cookieParser())
+app.use(cors({ origin: "http://localhost:3000", credentials: true}))
 app.use("/assets", express.static("public"))
 app.use(morgan("common"))
 // const logMiddleware = (req, res, next) => {

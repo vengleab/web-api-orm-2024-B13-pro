@@ -9,7 +9,8 @@ const authMiddleWare = async (req, res, next) => {
     return res.status(401).send({ message: "Bad Scheme" });
   }
 
-  const [_scheme, token] = authorization.split(" ");
+  const [_scheme, _token] = authorization.split(" ");
+  const token = req.cookies.token || '';
   if (!token) {
     return res.status(401).send({ message: "Missing token" });
   }

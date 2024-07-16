@@ -24,7 +24,7 @@ const Login = () => {
     const credentials = { username, password }
 
     try {
-      const response = await axios.post("http://localhost:8080/login", credentials);
+      const response = await axios.post("http://localhost:8080/login", credentials, { withCredentials: true});
       const token = response.data.token;
       localStorage.setItem("token", token);
       context.setLogin(true)

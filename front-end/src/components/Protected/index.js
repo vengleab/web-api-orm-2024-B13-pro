@@ -8,11 +8,12 @@ const Protected = (props) => {
 
   useEffect(() => {
     // get token from localStorage
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token") || 'test';
 
     if (token) {
       axios.get("http://localhost:8080/profile", {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}1` },
+        withCredentials: true,
       }).then((response) => {
         setLogin(true)
       }).catch((err) => {
